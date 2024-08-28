@@ -1,9 +1,13 @@
 const express = require("express");
+
 const app = express();
 const OneService = require("./vong1/OneService");
 const http = require("http");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
+const SocketV3 = require("./vong3/socket3");
+const SocketV2 = require("./vong2/socket2");
+const SocketV1 = require("./vong1/socket1");
 const PORT = 4000;
 const io = new Server(server, {
   cors: {
@@ -21,28 +25,17 @@ io.on("connection", (socket) => {
     socket.emit("userInfor", userId);
     console.log(userId);
   });
+  // vong 1
+  SocketV1.Socket1(io, socket);
 
-  socket.on("listUser", async (msg) => {
-    console.log("list : " + msg);
-    const listUser = await OneService.getListUser();
-    io.emit("listUserServer", listUser);
-  });
+  // vong 2
+  SocketV2.Socket2(io, socket);
 
-  socket.on("quesGame1", async (msg) => {
-    console.log("ques : " + msg.idUser);
-    const question = await OneService.getQuestionByIdAndNo(
-      msg.idUser,
-      msg.noQues
-    );
-    console.log(question);
-    io.emit("quesGame1Server", question[0]);
-  });
+  //vong 3
 
-  socket.on("updateScore", async (msg) => {
-    console.log("list : " + msg);
-    const listUser = await OneService.updateScoreGame(msg.score, msg.idUser);
-  });
+  SocketV3.Socket3(io, socket);
 
+  // disconect
   socket.on("disconnect", () => {
     console.log("user disconnected");
   });

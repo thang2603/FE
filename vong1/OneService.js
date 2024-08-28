@@ -23,7 +23,12 @@ const getUserByName = async (name) => {
 
   return res;
 };
-
+const getQuestionGroupByNo = async (index) => {
+  const sql = `SELECT * FROM question WHERE id = '${index}'`;
+  const rows = await db.query(sql);
+  const data = helper.emptyOrRows(rows);
+  return data;
+};
 const getQuestionByIdAndNo = async (idUser, noQues) => {
   const sql = `SELECT question.*,question_game_1.idUser,question_game_1.no
     from question 
@@ -38,7 +43,7 @@ const getQuestionByIdAndNo = async (idUser, noQues) => {
 const updateScoreGame = async (score, idUser) => {
   const sql = `UPDATE score1
   SET score = '${score}'
-  WHERE id = '${idUser}';`;
+  WHERE idUser = '${idUser}';`;
   const res = await db.query(sql);
   return res;
 };
@@ -48,4 +53,5 @@ module.exports = {
   getUserByName,
   getQuestionByIdAndNo,
   updateScoreGame,
+  getQuestionGroupByNo,
 };
