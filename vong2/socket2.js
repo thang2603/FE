@@ -2,23 +2,19 @@ const OneService = require("../vong1/OneService");
 const TwoService = require("../vong2/TwoService");
 const Socket2 = async (io, socket) => {
   socket.on("listUser2", async (msg) => {
-    console.log("list : " + msg);
     const listUser = await OneService.getListUser();
     io.emit("listUserServer2", listUser);
-    console.log(listUser);
   });
 
   socket.on("listQuestion2", async (msg) => {
-    console.log("list : " + msg);
     const listQuestion = await TwoService.getListQuestion();
-    console.log(listQuestion);
+
     io.emit("listQuestionServer2", listQuestion);
   });
 
   socket.on("question2", async (msg) => {
-    console.log(msg);
     const question = await TwoService.getQuestion(msg);
-    console.log(question);
+
     io.emit("questionServer2", question[0]);
   });
 
@@ -27,28 +23,29 @@ const Socket2 = async (io, socket) => {
   });
 
   socket.on("answer2", async (msg) => {
-    console.log(msg);
     const res = await TwoService.updateAnswer(msg.ans, msg.idUser);
   });
 
   socket.on("updateScore2", async (msg) => {
     const score = msg.score + msg.updateScore;
-    console.log(msg);
     const res = await TwoService.updateScoreGame(msg.updateScore, msg.id);
     const res1 = await OneService.updateScoreGame(score, msg.id);
   });
 
   socket.on("showResult2", async (msg) => {
-    console.log(msg);
     const res = await TwoService.getAnswer();
     io.emit("showResultServer2", res);
   });
 
   socket.on("showImage2", async (msg) => {
-    console.log(msg);
     const res = await TwoService.updateStatusQuestion(msg);
     const listQuestion = await TwoService.getListQuestion();
     io.emit("listQuestionServer2", listQuestion);
+  });
+
+  socket.on("next3", async (msg) => {
+    console.log(msg);
+    io.emit("nextServer3", "next3");
   });
 };
 

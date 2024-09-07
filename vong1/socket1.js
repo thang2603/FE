@@ -38,13 +38,15 @@ const Socket1 = async (io, socket) => {
   });
 
   socket.on("pressRung1", async (msg) => {
-    console.log(msg);
     io.emit("pressRung1Server", msg);
   });
 
   socket.on("nextGroup1", async (msg) => {
-    console.log(msg);
     io.emit("nextGroupServer1", msg);
+  });
+
+  socket.on("next2", async (msg) => {
+    io.emit("nextServer2", msg);
   });
 };
 
