@@ -15,6 +15,14 @@ const Socket4 = async (io, socket) => {
     io.emit("sendQuestionServer4", msg);
   });
 
+  socket.on("start", async (msg) => {
+    io.emit("startServer4", msg);
+  });
+
+  socket.on("cancelStart", async (msg) => {
+    io.emit("cancelStartServer4", msg);
+  });
+
   socket.on("updateScore4", async (msg) => {
     for (let i = 0; i < msg.length; i++) {
       const res1 = await OneService.updateScoreGame(

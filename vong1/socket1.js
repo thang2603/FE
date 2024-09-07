@@ -36,9 +36,15 @@ const Socket1 = async (io, socket) => {
   socket.on("startControl", async (msg) => {
     io.emit("startTimeServer", "start");
   });
+
   socket.on("pressRung1", async (msg) => {
     console.log(msg);
     io.emit("pressRung1Server", msg);
+  });
+
+  socket.on("nextGroup1", async (msg) => {
+    console.log(msg);
+    io.emit("nextGroupServer1", msg);
   });
 };
 
