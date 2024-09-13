@@ -11,7 +11,6 @@ const Socket2 = async (io, socket) => {
 
   socket.on("listQuestion2", async (msg) => {
     const listQuestion = await TwoService.getListQuestion();
-
     io.emit("listQuestionServer2", listQuestion);
   });
 
@@ -43,6 +42,11 @@ const Socket2 = async (io, socket) => {
     const res = await TwoService.updateStatusQuestion(msg);
     const listQuestion = await TwoService.getListQuestion();
     io.emit("listQuestionServer2", listQuestion);
+  });
+
+  socket.on("getAllQuestion2", async (msg) => {
+    const listQuestion = await TwoService.getListQuestion();
+    io.emit("getAllQuestionServer2", listQuestion);
   });
 
   socket.on("next3", async (msg) => {
