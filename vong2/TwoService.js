@@ -45,6 +45,7 @@ const updateStatusQuestion = async (id) => {
     const res = await db.query(sql);
   } catch {}
 };
+
 module.exports = {
   getQuestion,
   updateScoreGame,

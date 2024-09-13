@@ -4,6 +4,9 @@ const Socket2 = async (io, socket) => {
   socket.on("listUser2", async (msg) => {
     const listUser = await OneService.getListUser();
     io.emit("listUserServer2", listUser);
+    for (let i = 0; i < listUser?.length; i++) {
+      const res = await TwoService.updateAnswer("", listUser[i].id);
+    }
   });
 
   socket.on("listQuestion2", async (msg) => {
@@ -14,7 +17,6 @@ const Socket2 = async (io, socket) => {
 
   socket.on("question2", async (msg) => {
     const question = await TwoService.getQuestion(msg);
-
     io.emit("questionServer2", question[0]);
   });
 
