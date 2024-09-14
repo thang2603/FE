@@ -10,7 +10,7 @@ const getListQuestion = async () => {
   } catch {}
 };
 const getQuestion = async (index) => {
-  const sql = `select * from question_2 where id ='${index}'`;
+  const sql = `select * from question_2 where no ='${index}'`;
   const res = await db.query(sql);
   const data = helper.emptyOrRows(res);
   return data;
@@ -23,6 +23,7 @@ const updateAnswer = async (ans, idUser) => {
   const res = await db.query(sql);
   return res;
 };
+
 const updateScoreGame = async (score, idUser) => {
   const sql = `UPDATE score2
   SET score = '${score}'
@@ -40,7 +41,7 @@ join answer_2 on user.id = answer_2.idUser`;
 };
 
 const updateStatusQuestion = async (id) => {
-  const sql = `update question_2 set isActive = '1' where id ='${id}'`;
+  const sql = `update question_2 set isActive = '1' where no ='${id}'`;
   try {
     const res = await db.query(sql);
   } catch {}

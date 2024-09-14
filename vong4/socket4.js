@@ -33,6 +33,29 @@ const Socket4 = async (io, socket) => {
     const listUser = await OneService.getListUser();
     io.emit("listUserServer4", listUser);
   });
+
+  socket.on("getAllQuestion4", async (msg) => {
+    const listQuestion = await FourService.getListQuestion();
+    io.emit("getAllQuestionServer4", listQuestion);
+  });
+
+  socket.on("createQuestion4", async (msg) => {
+    const res = await FourService.createQuestion(msg);
+    const listQuestion = await FourService.getListQuestion();
+    io.emit("getAllQuestionServer4", listQuestion);
+  });
+
+  socket.on("updateQuestion4", async (msg) => {
+    const res = await FourService.updateQuestion(msg);
+    const listQuestion = await FourService.getListQuestion();
+    io.emit("getAllQuestionServer4", listQuestion);
+  });
+
+  socket.on("deleteQuestion4", async (msg) => {
+    const res = await FourService.deleteQuestion(msg);
+    const listQuestion = await FourService.getListQuestion();
+    io.emit("getAllQuestionServer4", listQuestion);
+  });
 };
 
 module.exports = {

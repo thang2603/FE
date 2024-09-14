@@ -43,6 +43,31 @@ const Socket3 = async (io, socket) => {
     io.emit("showResultServer3", res);
   });
 
+  socket.on("getAllQuestion3", async (msg) => {
+    const listQuestion = await ThreeService.getListQuestion();
+    io.emit("getAllQuestionServer3", listQuestion);
+  });
+
+  socket.on("createQuestion3", async (msg) => {
+    const res = await ThreeService.createQuestion(msg);
+    console.log(res);
+    const listQuestion = await ThreeService.getListQuestion();
+    io.emit("getAllQuestionServer3", listQuestion);
+  });
+
+  socket.on("updateQuestion3", async (msg) => {
+    const res = await ThreeService.updateQuestion(msg);
+    console.log(res);
+    const listQuestion = await ThreeService.getListQuestion();
+    io.emit("getAllQuestionServer3", listQuestion);
+  });
+
+  socket.on("deleteQuestion3", async (data) => {
+    const res = await ThreeService.deleteQuestion(data);
+    console.log(res);
+    const listQuestion = await ThreeService.getListQuestion();
+    io.emit("getAllQuestionServer3", listQuestion);
+  });
   socket.on("next4", async (msg) => {
     io.emit("nextServer4", "next4");
   });

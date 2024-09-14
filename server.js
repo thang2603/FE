@@ -5,6 +5,7 @@ const OneService = require("./vong1/OneService");
 const http = require("http");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
+const SocketUser = require("./user/SocketUser");
 const SocketV4 = require("./vong4/socket4");
 const SocketV3 = require("./vong3/socket3");
 const SocketV2 = require("./vong2/socket2");
@@ -38,6 +39,7 @@ io.on("connection", (socket) => {
 
   // vong 4
   SocketV4.Socket4(io, socket);
+  SocketUser.SocketUser(io, socket);
   // disconect
   socket.on("disconnect", () => {
     console.log("user disconnected");
