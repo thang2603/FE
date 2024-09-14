@@ -46,6 +46,37 @@ const updateStatusQuestion = async (id) => {
   } catch {}
 };
 
+const createQuestion = async (data) => {
+  const sql = `insert into question_2 (ques,ans,type, no,isActive) values('${data?.ques}','${data?.ans}', ${data?.type},${data?.no},${data?.isActive})`;
+  try {
+    const res = await db.query(sql);
+    return res;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+const updateQuestion = async (data) => {
+  const sql = `UPDATE question_2 SET ques = '${data.ques}', ans = '${data.ans}', type = ${data.type},no =${data.no}, isActive=${data?.isActive}  WHERE (id = ${data.id});`;
+  try {
+    const res = await db.query(sql);
+    return res;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+const deleteQuestion = async (id) => {
+  const sql = `DELETE FROM question_2 WHERE id = ${id};`;
+  try {
+    const res = await db.query(sql);
+    return res;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
 module.exports = {
   getQuestion,
   updateScoreGame,
@@ -53,4 +84,7 @@ module.exports = {
   getAnswer,
   updateStatusQuestion,
   getListQuestion,
+  createQuestion,
+  updateQuestion,
+  deleteQuestion,
 };

@@ -60,6 +60,7 @@ const Socket1 = async (io, socket) => {
     const listQuestion = await OneService.getAllQuestionAndUser();
     io.emit("getAllQuestionServer1", listQuestion);
   });
+
   socket.on("deleteQuestion1", async (data) => {
     const res = await OneService.deleteQuestion(data);
     console.log(res);

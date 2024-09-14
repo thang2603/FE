@@ -49,6 +49,27 @@ const Socket2 = async (io, socket) => {
     io.emit("getAllQuestionServer2", listQuestion);
   });
 
+  socket.on("createQuestion2", async (msg) => {
+    const res = await TwoService.createQuestion(msg);
+    console.log(res);
+    const listQuestion = await TwoService.getListQuestion();
+    io.emit("getAllQuestionServer2", listQuestion);
+  });
+
+  socket.on("updateQuestion2", async (msg) => {
+    const res = await TwoService.updateQuestion(msg);
+    console.log(res);
+    const listQuestion = await TwoService.getListQuestion();
+    io.emit("getAllQuestionServer2", listQuestion);
+  });
+
+  socket.on("deleteQuestion2", async (data) => {
+    const res = await TwoService.deleteQuestion(data);
+    console.log(res);
+    const listQuestion = await TwoService.getListQuestion();
+    io.emit("getAllQuestionServer2", listQuestion);
+  });
+
   socket.on("next3", async (msg) => {
     console.log(msg);
     io.emit("nextServer3", "next3");
