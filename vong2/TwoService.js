@@ -1,6 +1,30 @@
 const db = require(`../service/db`);
 const helper = require(`../service/helper`);
 
+const createTableQuestion = async () => {
+  const sql = `CREATE TABLE IF NOT EXISTS question_2 (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      ques VARCHAR(255) NOT NULL,
+      ans VARCHAR(255) NOT NULL,
+      no INT NOT NULL,
+      isActive INT NOT NULL,
+      type INT NOT NULL
+    )`;
+  const res = await db.query(sql);
+};
+
+const createTableAnswer2 = async () => {
+  const sql = `CREATE TABLE IF NOT EXISTS answer_2 (
+      ans VARCHAR(255) NOT NULL,
+      idUser INT NOT NULL
+    )`;
+  const res = await db.query(sql);
+};
+
+const createUserInTableAnswer = async (idUser) => {
+  const sql = `INSERT INTO answer_2 (idUser, ans) VALUES (${idUser}, '')`;
+  const res = await db.query(sql);
+};
 const getListQuestion = async () => {
   const sql = `select * from question_2 `;
   try {
@@ -25,9 +49,9 @@ const updateAnswer = async (ans, idUser) => {
 };
 
 const updateScoreGame = async (score, idUser) => {
-  const sql = `UPDATE score2
-  SET score = '${score}'
-  WHERE idUser = '${idUser}';`;
+  const sql = `UPDATE score1
+  SET score = ${score}
+  WHERE idUser = ${idUser};`;
   const res = await db.query(sql);
   return res;
 };
@@ -57,6 +81,7 @@ const createQuestion = async (data) => {
     return err;
   }
 };
+
 const updateQuestion = async (data) => {
   const sql = `UPDATE question_2 SET ques = '${data.ques}', ans = '${data.ans}', type = ${data.type},no =${data.no}, isActive=${data?.isActive}  WHERE (id = ${data.id});`;
   try {
@@ -88,4 +113,8 @@ module.exports = {
   createQuestion,
   updateQuestion,
   deleteQuestion,
+  createQuestion,
+  createTableAnswer2,
+  createTableQuestion,
+  createUserInTableAnswer,
 };

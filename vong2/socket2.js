@@ -28,9 +28,12 @@ const Socket2 = async (io, socket) => {
   });
 
   socket.on("updateScore2", async (msg) => {
-    const score = msg.score + msg.updateScore;
-    const res = await TwoService.updateScoreGame(msg.updateScore, msg.id);
-    const res1 = await OneService.updateScoreGame(score, msg.id);
+    for (let i = 0; i < msg.length; i++) {
+      let score = msg[i].score + msg[i].updateScore;
+      const res1 = await OneService.updateScoreGame(score, msg[i].id);
+    }
+    const listUser = await OneService.getListUser();
+    io.emit("listUserServer2", listUser);
   });
 
   socket.on("showResult2", async (msg) => {

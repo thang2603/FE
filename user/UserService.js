@@ -1,8 +1,18 @@
 const db = require(`../service/db`);
 const helper = require(`../service/helper`);
 
+const createTableUser = async () => {
+  const sql = `CREATE TABLE IF NOT EXISTS user (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      fullName VARCHAR(255) NOT NULL,
+      password VARCHAR(255) NOT NULL,
+      role VARCHAR(255) NOT NULL
+    )`;
+  const res = await db.query(sql);
+};
+
 const getListUser = async () => {
-  const sql = `select * from user`;
+  const sql = `select * from user where role = 'USER'`;
   try {
     const res = await db.query(sql);
     const data = helper.emptyOrRows(res);
@@ -48,4 +58,5 @@ module.exports = {
   deleteUser,
   createUser,
   updateUser,
+  createTableUser,
 };

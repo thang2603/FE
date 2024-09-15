@@ -1,5 +1,29 @@
 const db = require(`../service/db`);
 const helper = require(`../service/helper`);
+const createTableQuestion = async () => {
+  const sql = `CREATE TABLE IF NOT EXISTS question_3 (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      ques VARCHAR(255) NOT NULL,
+      ans VARCHAR(255) NOT NULL,
+      no INT NOT NULL,
+      type INT NOT NULL
+    )`;
+  const res = await db.query(sql);
+};
+
+const createTableAnswer3 = async () => {
+  const sql = `CREATE TABLE IF NOT EXISTS answer_3 (
+      ans VARCHAR(255) NOT NULL,
+      idUser INT NOT NULL,
+      updateAt INT NOT NULL
+    )`;
+  const res = await db.query(sql);
+};
+
+const createUserInTableAnswer = async (idUser) => {
+  const sql = `INSERT INTO answer_3 (idUser, ans,updateAt) VALUES (${idUser}, '',0)`;
+  const res = await db.query(sql);
+};
 
 const getListQuestion = async () => {
   const sql = `select * from question_3 `;
@@ -91,4 +115,7 @@ module.exports = {
   createQuestion,
   updateQuestion,
   deleteQuestion,
+  createTableAnswer3,
+  createTableQuestion,
+  createUserInTableAnswer,
 };

@@ -1,9 +1,15 @@
 const OneService = require("./OneService");
-
+const UserService = require("../user/UserService");
 const Socket1 = async (io, socket) => {
   socket.on("listUser", async (msg) => {
-    const listUser = await OneService.getListUser();
+    const listUser = await UserService.getListUser();
     io.emit("listUserServer", listUser);
+  });
+
+  socket.on("listUserAndScore", async (msg) => {
+    const listUser = await OneService.getListUser();
+    io.emit("listUserAndScoreServer", listUser);
+    console.log(listUser);
   });
 
   socket.on("quesGame1", async (msg) => {
@@ -11,13 +17,38 @@ const Socket1 = async (io, socket) => {
       msg.idUser,
       msg.noQues
     );
-
     io.emit("quesGame1Server", question[0]);
+  });
+
+  socket.on("getAllQuestionGroup1", async () => {
+    const question = await OneService.getAllQuestionGroup();
+    io.emit("getAllQuestionGroupServer1", question);
+  });
+
+  socket.on("createAllQuestionGroup1", async (msg) => {
+    const res = await OneService.createQuestionGroup(msg);
+    console.log(res);
+    const question = await OneService.getAllQuestionGroup();
+    io.emit("getAllQuestionGroupServer1", question);
+  });
+
+  socket.on("updateAllQuestionGroup1", async (msg) => {
+    const res = await OneService.updateQuestionGroup(msg);
+    console.log(res);
+    const question = await OneService.getAllQuestionGroup();
+    io.emit("getAllQuestionGroupServer1", question);
+  });
+
+  socket.on("deleteQuestionGroup1", async (msg) => {
+    const res = await OneService.deleteQuestionGroup(msg);
+    console.log(res);
+    const question = await OneService.getAllQuestionGroup();
+    io.emit("getAllQuestionGroupServer1", question);
   });
 
   socket.on("quesGroup1", async (noQues) => {
     const question = await OneService.getQuestionGroupByNo(noQues);
-    io.emit("quesGame1Server", question[0]);
+    io.emit("questionGroupServer", question[0]);
   });
 
   socket.on("updateScore", async (msg) => {
@@ -26,7 +57,7 @@ const Socket1 = async (io, socket) => {
       msg.idUser
     );
     const listUser = await OneService.getListUser();
-    io.emit("listUserServer", listUser);
+    io.emit("listUserAndScoreServer", listUser);
   });
 
   socket.on("startControl", async (msg) => {
@@ -53,6 +84,9 @@ const Socket1 = async (io, socket) => {
 
   socket.on("createQuestion1", async (data) => {
     const res = await OneService.createQuestion(data);
+    const listQuestion = await OneService.getAllQuestionAndUser();
+    console.log(listQuestion);
+    io.emit("getAllQuestionServer1", listQuestion);
   });
 
   socket.on("updateQuestion1", async (data) => {
