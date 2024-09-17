@@ -8,7 +8,8 @@ const createTableQuestion = async () => {
       ans VARCHAR(255) NOT NULL,
       no INT NOT NULL,
       isActive INT NOT NULL,
-      type INT NOT NULL
+      type INT NOT NULL,
+      link VARCHAR(255),
     )`;
   const res = await db.query(sql);
 };
@@ -72,7 +73,11 @@ const updateStatusQuestion = async (id) => {
 };
 
 const createQuestion = async (data) => {
-  const sql = `insert into question_2 (ques,ans,type, no,isActive) values('${data?.ques}','${data?.ans}', ${data?.type},${data?.no},${data?.isActive})`;
+  const sql = `insert into question_2 (ques,ans,type, no,isActive,link) values('${
+    data?.ques
+  }','${data?.ans}', ${data?.type},${data?.no},${data?.isActive},'${
+    data?.link || ""
+  }')`;
   try {
     const res = await db.query(sql);
     return res;
@@ -83,7 +88,11 @@ const createQuestion = async (data) => {
 };
 
 const updateQuestion = async (data) => {
-  const sql = `UPDATE question_2 SET ques = '${data.ques}', ans = '${data.ans}', type = ${data.type},no =${data.no}, isActive=${data?.isActive}  WHERE (id = ${data.id});`;
+  const sql = `UPDATE question_2 SET ques = '${data.ques}', ans = '${
+    data.ans
+  }', type = ${data.type},no =${data.no}, isActive=${data?.isActive}, link= '${
+    data?.link || ""
+  }'  WHERE (id = ${data.id});`;
   try {
     const res = await db.query(sql);
     return res;
