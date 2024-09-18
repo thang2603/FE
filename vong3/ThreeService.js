@@ -11,6 +11,15 @@ const createTableQuestion = async () => {
   const res = await db.query(sql);
 };
 
+const createTableImage = async () => {
+  const sql = `CREATE TABLE IF NOT EXISTS image_3 (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      link VARCHAR(255) NOT NULL,
+      idQues VARCHAR(255) NOT NULL
+    )`;
+  const res = await db.query(sql);
+};
+
 const createTableAnswer3 = async () => {
   const sql = `CREATE TABLE IF NOT EXISTS answer_3 (
       ans VARCHAR(255) NOT NULL,
@@ -26,16 +35,61 @@ const createUserInTableAnswer = async (idUser) => {
 };
 
 const getListQuestion = async () => {
-  const sql = `select * from question_3 `;
+  const sql = `select question_3.*, 
+  image_3.id as idImage,
+  image_3.link from question_3 
+  join image_3 
+  where question_3.id = image_3.idQues`;
   try {
-    const res = await db.query(sql);
-    const data = helper.emptyOrRows(res);
-    return data;
+    const data = await db.query(sql);
+    let res = helper.emptyOrRows(data);
+    const newMap = new Map();
+    if (res?.length > 1) {
+      for (let i = 0; i < res.length; i++) {
+        const item = { ...res[i] };
+        if (newMap.get(item?.id)) {
+          let tempData = newMap.get(item?.id);
+          const listImage = [
+            ...tempData.image,
+            {
+              id: item?.idImage,
+              link: item?.link,
+            },
+          ];
+          const newData = { ...tempData, image: [...listImage] };
+          newMap.set(item?.id, newData);
+        } else {
+          newMap.set(item?.id, {
+            id: item.id,
+            ques: item?.ques,
+            ans: item?.ans,
+            no: item?.no,
+            type: item?.type,
+            image: [
+              {
+                id: item?.idImage,
+                link: item?.link,
+              },
+            ],
+          });
+        }
+      }
+      res = Array.from(newMap.values());
+    }
+
+    return res;
   } catch {}
 };
 
 const getQuestion = async (index) => {
   const sql = `select * from question_3 where no ='${index}'`;
+  const res = await db.query(sql);
+  const data = helper.emptyOrRows(res);
+  return data;
+};
+
+const getImage = async (index) => {
+  const sql = `select id,link from image_3 where no ='${index}'`;
   const res = await db.query(sql);
   const data = helper.emptyOrRows(res);
   return data;
@@ -83,6 +137,17 @@ const createQuestion = async (data) => {
   }
 };
 
+const createImage = async (link, idQues) => {
+  const sql = `insert into image_3 (idQues,link) values(${idQues},'${link}')`;
+  try {
+    const res = await db.query(sql);
+    return res;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
 const updateQuestion = async (data) => {
   const sql = `UPDATE question_3 SET ques = '${data.ques}', ans = '${data.ans}', type = ${data.type},no =${data.no}  WHERE (id = ${data.id});`;
   try {
@@ -104,6 +169,7 @@ const deleteQuestion = async (id) => {
   }
 };
 module.exports = {
+  getImage,
   getQuestion,
   updateScoreGame,
   updateAnswer,
@@ -118,4 +184,6 @@ module.exports = {
   createTableAnswer3,
   createTableQuestion,
   createUserInTableAnswer,
+  createTableImage,
+  createImage,
 };

@@ -9,7 +9,7 @@ const createTableQuestion = async () => {
       no INT NOT NULL,
       isActive INT NOT NULL,
       type INT NOT NULL,
-      link VARCHAR(255),
+      link VARCHAR(255)
     )`;
   const res = await db.query(sql);
 };

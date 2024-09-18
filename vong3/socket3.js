@@ -7,13 +7,17 @@ const Socket3 = async (io, socket) => {
   });
 
   socket.on("listQuestion3", async (msg) => {
+    console.log(msg);
     const listQuestion = await ThreeService.getListQuestion();
+    console.log(listQuestion);
     io.emit("listQuestionServer3", listQuestion);
   });
 
   socket.on("question3", async (msg) => {
     const question = await ThreeService.getQuestion(msg);
-    io.emit("questionServer3", question[0]);
+    const listImage = await ThreeService.getImage(msg);
+    const data = { ...question[0], image: listImage };
+    io.emit("questionServer3", data);
   });
 
   socket.on("startControl3", async (msg) => {
@@ -45,12 +49,22 @@ const Socket3 = async (io, socket) => {
 
   socket.on("getAllQuestion3", async (msg) => {
     const listQuestion = await ThreeService.getListQuestion();
+    console.log(listQuestion);
     io.emit("getAllQuestionServer3", listQuestion);
   });
 
   socket.on("createQuestion3", async (msg) => {
     const res = await ThreeService.createQuestion(msg);
-    console.log(res);
+    const idQues = res?.insertId;
+    const listImage = msg?.image;
+    console.log(listImage);
+    for (let i = 0; i < listImage.length; i++) {
+      const resImage = await ThreeService.createImage(
+        listImage[i].link,
+        idQues
+      );
+    }
+
     const listQuestion = await ThreeService.getListQuestion();
     io.emit("getAllQuestionServer3", listQuestion);
   });

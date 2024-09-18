@@ -7,12 +7,17 @@ const SocketUser = async (io, socket) => {
   socket.on("createTableDatabase", async (msg) => {
     await UserService.createTableUser();
     await OneService.createTableQuestion();
+
     await OneService.createTableScore1();
     await OneService.createTableQuestionGroup();
+
     await TwoService.createTableQuestion();
     await TwoService.createTableAnswer2();
+
     await ThreeService.createTableQuestion();
+    await ThreeService.createTableImage();
     await ThreeService.createTableAnswer3();
+
     await FourService.createTableQuestion();
   });
 
