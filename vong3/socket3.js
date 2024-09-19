@@ -14,14 +14,15 @@ const Socket3 = async (io, socket) => {
   });
 
   socket.on("question3", async (msg) => {
-    const question = await ThreeService.getQuestion(msg);
-    const listImage = await ThreeService.getImage(msg);
+    const question = await ThreeService.getQuestion(msg.no);
+    const listImage = await ThreeService.getImage(msg.idQues);
     const data = { ...question[0], image: listImage };
     io.emit("questionServer3", data);
+    console.log(data);
   });
 
   socket.on("startControl3", async (msg) => {
-    io.emit("startTimeServer3", "start");
+    io.emit("startTimeServer3", msg);
   });
 
   socket.on("answer3", async (msg) => {
@@ -57,28 +58,40 @@ const Socket3 = async (io, socket) => {
     const res = await ThreeService.createQuestion(msg);
     const idQues = res?.insertId;
     const listImage = msg?.image;
-    console.log(listImage);
     for (let i = 0; i < listImage.length; i++) {
       const resImage = await ThreeService.createImage(
         listImage[i].link,
         idQues
       );
     }
-
     const listQuestion = await ThreeService.getListQuestion();
     io.emit("getAllQuestionServer3", listQuestion);
   });
 
   socket.on("updateQuestion3", async (msg) => {
     const res = await ThreeService.updateQuestion(msg);
-    console.log(res);
+    const listImage = msg?.image;
+    console.log(listImage);
+    for (let i = 0; i < listImage.length; i++) {
+      let itemImage = listImage[i];
+      if (itemImage.status === "edit") {
+        const resImage = await ThreeService.updateIamge(
+          itemImage.id,
+          itemImage.link
+        );
+      } else if (itemImage.status === "delete") {
+        const resImage = await ThreeService.deleteImage(itemImage.id);
+      } else if (itemImage.status === "add") {
+        const resImage = await ThreeService.createImage(itemImage.link, msg.id);
+      }
+    }
+
     const listQuestion = await ThreeService.getListQuestion();
     io.emit("getAllQuestionServer3", listQuestion);
   });
 
   socket.on("deleteQuestion3", async (data) => {
     const res = await ThreeService.deleteQuestion(data);
-    console.log(res);
     const listQuestion = await ThreeService.getListQuestion();
     io.emit("getAllQuestionServer3", listQuestion);
   });

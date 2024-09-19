@@ -89,7 +89,7 @@ const getQuestion = async (index) => {
 };
 
 const getImage = async (index) => {
-  const sql = `select id,link from image_3 where no ='${index}'`;
+  const sql = `select id,link from image_3 where idQues='${index}'`;
   const res = await db.query(sql);
   const data = helper.emptyOrRows(res);
   return data;
@@ -158,8 +158,29 @@ const updateQuestion = async (data) => {
     return err;
   }
 };
+
+const updateIamge = async (id, link) => {
+  const sql = `UPDATE image_3 SET link = '${link}' WHERE (id = ${id});`;
+  try {
+    const res = await db.query(sql);
+    return res;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
 const deleteQuestion = async (id) => {
   const sql = `DELETE FROM question_3 WHERE id = ${id};`;
+  try {
+    const res = await db.query(sql);
+    return res;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+const deleteImage = async (id) => {
+  const sql = `DELETE FROM image_3 WHERE id = ${id};`;
   try {
     const res = await db.query(sql);
     return res;
@@ -186,4 +207,6 @@ module.exports = {
   createUserInTableAnswer,
   createTableImage,
   createImage,
+  updateIamge,
+  deleteImage,
 };
