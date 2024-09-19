@@ -97,6 +97,7 @@ const Socket3 = async (io, socket) => {
   });
   socket.on("next4", async (msg) => {
     io.emit("nextServer4", "next4");
+    io.emit("nextGameFromSever", "/vong/4/user");
   });
 };
 

@@ -70,22 +70,22 @@ const Socket1 = async (io, socket) => {
 
   socket.on("nextGroup1", async (msg) => {
     io.emit("nextGroupServer1", msg);
+    io.emit("nextGameFromSever", "/vong-group/1/user");
   });
 
   socket.on("next2", async (msg) => {
     io.emit("nextServer2", msg);
+    io.emit("nextGameFromSever", "/vong/2/user");
   });
 
   socket.on("getAllQuestion", async (msg) => {
     const listQuestion = await OneService.getAllQuestionAndUser();
-    console.log(listQuestion);
     io.emit("getAllQuestionServer1", listQuestion);
   });
 
   socket.on("createQuestion1", async (data) => {
     const res = await OneService.createQuestion(data);
     const listQuestion = await OneService.getAllQuestionAndUser();
-    console.log(listQuestion);
     io.emit("getAllQuestionServer1", listQuestion);
   });
 
