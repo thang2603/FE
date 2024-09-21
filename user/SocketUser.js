@@ -26,19 +26,23 @@ const SocketUser = async (io, socket) => {
   });
 
   socket.on("listUserService", async (msg) => {
-    const listUser = await UserService.getListUser();
+    const listUser = await UserService.getAllUser();
     io.emit("listUserServiceServer", listUser);
   });
 
+  socket.on("showResultWaiterScreen", async (msg) => {
+    const listUser = await OneService.getListUserOrderByScore();
+    io.emit("showResultWaiterScreenServer", listUser);
+  });
   socket.on("deleteUserService", async (msg) => {
     const res = await UserService.deleteUser(msg);
-    const listUser = await UserService.getListUser();
+    const listUser = await UserService.getAllUser();
     io.emit("listUserServiceServer", listUser);
   });
 
   socket.on("createUserService", async (msg) => {
     const userResults = await UserService.createUser(msg);
-    const listUser = await UserService.getListUser();
+    const listUser = await UserService.getAllUser();
     io.emit("listUserServiceServer", listUser);
     const idUser = userResults.insertId;
     const resUser2 = await TwoService.createUserInTableAnswer(idUser);

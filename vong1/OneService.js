@@ -39,7 +39,16 @@ const getListUser = async () => {
   const data = helper.emptyOrRows(rows);
   return data;
 };
-
+const getListUserOrderByScore = async () => {
+  const sql = `select user.*, score1.score 
+  from user
+  inner join score1
+  where user.id = score1.idUser
+  ORDER BY score ASC`;
+  const rows = await db.query(sql);
+  const data = helper.emptyOrRows(rows);
+  return data;
+};
 const createUser = async (data) => {
   const sql = `INSERT INTO user (fullName, password, role) VALUES ('${data?.fullName}', '${data?.password}', 'user')`;
   const res = await db.query(sql);
@@ -181,4 +190,5 @@ module.exports = {
   createQuestionGroup,
   updateQuestionGroup,
   deleteQuestionGroup,
+  getListUserOrderByScore,
 };

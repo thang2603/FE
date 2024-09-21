@@ -19,6 +19,14 @@ const getListUser = async () => {
     return data;
   } catch {}
 };
+const getAllUser = async () => {
+  const sql = `select * from user`;
+  try {
+    const res = await db.query(sql);
+    const data = helper.emptyOrRows(res);
+    return data;
+  } catch {}
+};
 
 const createUser = async (data) => {
   const sql = `insert into user (fullName,password,role) values('${data?.fullName}','${data?.password}', '${data?.role}')`;
@@ -59,4 +67,5 @@ module.exports = {
   createUser,
   updateUser,
   createTableUser,
+  getAllUser,
 };
