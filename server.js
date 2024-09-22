@@ -15,6 +15,10 @@ const io = new Server(server, {
   cors: {
     origin: "*",
   },
+  maxHttpBufferSize: 1e6, // Điều chỉnh giới hạn buffer
+  pingInterval: 10000, // Điều chỉnh ping interval
+  pingTimeout: 5000, // Điều chỉnh ping timeout
+  maxConnectionAttempts: 100, // Tăng giới hạn kết nối
 });
 
 io.on("connection", (socket) => {

@@ -5,6 +5,10 @@ const Socket4 = async (io, socket) => {
     const listUser = await OneService.getListUser();
     io.emit("listUserServer4", listUser);
   });
+  // socket.on("addUserGame5", async (msg) => {
+  //   const listUser = await use
+  //   io.emit("addUserGameServer5", listUser);
+  // });
 
   socket.on("questionUser4", async (msg) => {
     const listQuestion = await FourService.getListQuestionByIdUser(msg);

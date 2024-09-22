@@ -39,7 +39,9 @@ const getListQuestion = async () => {
   image_3.id as idImage,
   image_3.link from question_3 
   join image_3 
-  where question_3.id = image_3.idQues`;
+  where question_3.id = image_3.idQues
+  order by no asc
+  `;
   try {
     const data = await db.query(sql);
     let res = helper.emptyOrRows(data);

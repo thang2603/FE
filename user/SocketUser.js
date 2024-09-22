@@ -6,6 +6,8 @@ const OneService = require("../vong1/OneService");
 const SocketUser = async (io, socket) => {
   socket.on("createTableDatabase", async (msg) => {
     await UserService.createTableUser();
+    await UserService.createTableGame5();
+    await UserService.createTableQuestionGame5();
     await OneService.createTableQuestion();
 
     await OneService.createTableScore1();
@@ -19,6 +21,9 @@ const SocketUser = async (io, socket) => {
     await ThreeService.createTableAnswer3();
 
     await FourService.createTableQuestion();
+  });
+  socket.on("sendMessFromTech", async (msg) => {
+    io.emit("sendMessFromTechServer", msg);
   });
 
   socket.on("nextWaitScreen", async (msg) => {
@@ -34,6 +39,7 @@ const SocketUser = async (io, socket) => {
     const listUser = await OneService.getListUserOrderByScore();
     io.emit("showResultWaiterScreenServer", listUser);
   });
+
   socket.on("deleteUserService", async (msg) => {
     const res = await UserService.deleteUser(msg);
     const listUser = await UserService.getAllUser();
@@ -53,7 +59,7 @@ const SocketUser = async (io, socket) => {
 
   socket.on("updateUserService", async (msg) => {
     const res = await UserService.updateUser(msg);
-    const listUser = await UserService.getListUser();
+    const listUser = await UserService.getAllUser();
     io.emit("listUserServiceServer", listUser);
   });
 };

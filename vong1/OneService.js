@@ -34,7 +34,7 @@ const getListUser = async () => {
   const sql = `select user.*, score1.score 
   from user
   inner join score1
-  where user.id = score1.idUser`;
+  where user.id = score1.idUser and role ='USER'`;
   const rows = await db.query(sql);
   const data = helper.emptyOrRows(rows);
   return data;
@@ -43,7 +43,7 @@ const getListUserOrderByScore = async () => {
   const sql = `select user.*, score1.score 
   from user
   inner join score1
-  where user.id = score1.idUser
+  where user.id = score1.idUser and role = "USER"
   ORDER BY score ASC`;
   const rows = await db.query(sql);
   const data = helper.emptyOrRows(rows);

@@ -4,6 +4,11 @@ const Socket3 = async (io, socket) => {
   socket.on("listUser3", async (msg) => {
     const listUser = await OneService.getListUser();
     io.emit("listUserServer3", listUser);
+    console.log(listUser);
+    for (let i = 0; i < listUser.length; i++) {
+      let msg = listUser[i];
+      const res = await ThreeService.updateAnswer("", msg.id, "0");
+    }
   });
 
   socket.on("listQuestion3", async (msg) => {

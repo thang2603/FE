@@ -74,6 +74,14 @@ const Socket2 = async (io, socket) => {
     io.emit("nextServer3", "next3");
     io.emit("nextGameFromSever", "/vong/3/user");
   });
+
+  socket.on("choseRowControl", async (msg) => {
+    io.emit("choseRowServer", "next3");
+  });
+
+  socket.on("allWrongControl", async (msg) => {
+    io.emit("allWrongServer", "next3");
+  });
 };
 
 module.exports = {
