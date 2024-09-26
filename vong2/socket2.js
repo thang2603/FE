@@ -28,12 +28,13 @@ const Socket2 = async (io, socket) => {
   });
 
   socket.on("updateScore2", async (msg) => {
+    io.emit("updateScoreCorrect", msg);
     for (let i = 0; i < msg.length; i++) {
       let score = msg[i].score + msg[i].updateScore;
       const res1 = await OneService.updateScoreGame(score, msg[i].id);
     }
-    const listUser = await OneService.getListUser();
-    io.emit("listUserServer2", listUser);
+    // const listUser = await OneService.getListUser();
+    // io.emit("listUserServer2", listUser);
   });
 
   socket.on("showResult2", async (msg) => {
@@ -81,6 +82,10 @@ const Socket2 = async (io, socket) => {
 
   socket.on("allWrongControl", async (msg) => {
     io.emit("allWrongServer", "next3");
+  });
+
+  socket.on("correctObstacle", async (msg) => {
+    io.emit("correctObstacleServer", "correctObstacle");
   });
 };
 
