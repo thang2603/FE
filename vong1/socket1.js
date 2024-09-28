@@ -12,6 +12,11 @@ const Socket1 = async (io, socket) => {
     console.log(listUser);
   });
 
+  socket.on("finishTurnUser", async (msg) => {
+    const listUser = await OneService.getListUser();
+    io.emit("finishTurnUserServer", listUser);
+  });
+
   socket.on("quesGame1", async (msg) => {
     const question = await OneService.getQuestionByIdAndNo(
       msg.idUser,
@@ -100,6 +105,27 @@ const Socket1 = async (io, socket) => {
     console.log(res);
     const listQuestion = await OneService.getAllQuestionAndUser();
     io.emit("getAllQuestionServer1", listQuestion);
+  });
+
+  socket.on("startTurnControl", async (data) => {
+    io.emit("startTurnlServer1", data);
+  });
+
+  socket.on("preMainTimeControl", async (data) => {
+    io.emit("preMainTimeControlServer1", data);
+  });
+
+  socket.on("correctAnswerControl1", async (data) => {
+    io.emit("correctAnswerServer1", data);
+  });
+
+  socket.on("wrongAnswerControl1", async (data) => {
+    io.emit("wrongAnswerServer1", data);
+  });
+
+  socket.on("finishTurnrControl1", async (data) => {
+    io.emit("finishTurnrServer1", data);
+    console.log("Finish");
   });
 };
 
