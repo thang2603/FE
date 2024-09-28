@@ -39,7 +39,7 @@ const Socket3 = async (io, socket) => {
   });
 
   socket.on("updateScore3", async (msg) => {
-    io.emit("correct3", msg);
+    io.emit("correctServer3", msg);
     for (let i = 0; i < msg.length; i++) {
       const res1 = await OneService.updateScoreGame(
         msg[i].score + msg[i].updateScore,
@@ -103,6 +103,34 @@ const Socket3 = async (io, socket) => {
   socket.on("next4", async (msg) => {
     io.emit("nextServer4", "next4");
     io.emit("nextGameFromSever", "/vong/4/user");
+  });
+
+  socket.on("startRound3", async (msg) => {
+    io.emit("startRoundServer3", "next4");
+  });
+
+  socket.on("startSoundQuestion3", async (msg) => {
+    io.emit("startSoundQuestionServer3", "next4");
+  });
+
+  socket.on("sound10Second", async (msg) => {
+    io.emit("sound10SecondServer3", "next4");
+  });
+
+  socket.on("sound20Second", async (msg) => {
+    io.emit("sound20SecondServer3", "next4");
+  });
+
+  socket.on("sound30Second", async (msg) => {
+    io.emit("sound30SecondServer3", "next4");
+  });
+
+  socket.on("sound40Second", async (msg) => {
+    io.emit("sound40SecondServer3", "next4");
+  });
+
+  socket.on("soundCorrect3", async (msg) => {
+    io.emit("soundCorrectServer3", "next4");
   });
 };
 
