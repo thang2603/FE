@@ -10,6 +10,8 @@ const SocketV4 = require("./vong4/socket4");
 const SocketV3 = require("./vong3/socket3");
 const SocketV2 = require("./vong2/socket2");
 const SocketV1 = require("./vong1/socket1");
+
+const SocketV5 = require("./vong5/socket5");
 const PORT = 4000;
 const io = new Server(server, {
   cors: {
@@ -43,6 +45,10 @@ io.on("connection", (socket) => {
 
   // vong 4
   SocketV4.Socket4(io, socket);
+
+  //vong 5
+  SocketV5.Socket5(io, socket);
+
   SocketUser.SocketUser(io, socket);
   // disconect
   socket.on("disconnect", () => {

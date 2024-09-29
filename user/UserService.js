@@ -68,17 +68,6 @@ const createTableGame5 = async () => {
   const res = await db.query(sql);
 };
 
-const insertUserGame5 = async (idUser) => {
-  const sql = `insert into user_5 (idUser) values(${idUser})`;
-  try {
-    const res = await db.query(sql);
-    return res;
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
-};
-
 const getUserGame5 = async (idUser) => {
   const sql = `select * from user_5`;
   try {
@@ -102,26 +91,13 @@ const deleteUserGame5 = async (idUser) => {
     return err;
   }
 };
-const getNameUserGame5 = async (idUser) => {
-  const sql = `select user.*
-  from user
-  inner join user_5
-  where user.id = user_5.idUser
-  `;
-  try {
-    const res = await db.query(sql);
-    const data = helper.emptyOrRows(res);
-    return data;
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
-};
+
 const createTableQuestionGame5 = async () => {
   const sql = `CREATE TABLE IF NOT EXISTS question_5 (
       id INT AUTO_INCREMENT PRIMARY KEY,
       ques VARCHAR(255) NOT NULL,
-      ans VARCHAR(255) NOT NULL
+      ans VARCHAR(255) NOT NULL,
+      no INT NOT NULL
     )`;
   const res = await db.query(sql);
 };
@@ -135,8 +111,6 @@ module.exports = {
   getAllUser,
   createTableGame5,
   createTableQuestionGame5,
-  insertUserGame5,
   getUserGame5,
   deleteUserGame5,
-  getNameUserGame5,
 };
