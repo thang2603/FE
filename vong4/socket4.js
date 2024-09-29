@@ -27,6 +27,10 @@ const Socket4 = async (io, socket) => {
     io.emit("cancelStartServer4", msg);
   });
 
+  socket.on("startTime4", async (msg) => {
+    io.emit("startTimeServer4", msg);
+  });
+
   socket.on("updateScore4", async (msg) => {
     for (let i = 0; i < msg.length; i++) {
       const res1 = await OneService.updateScoreGame(
@@ -59,6 +63,26 @@ const Socket4 = async (io, socket) => {
     const res = await FourService.deleteQuestion(msg);
     const listQuestion = await FourService.getListQuestion();
     io.emit("getAllQuestionServer4", listQuestion);
+  });
+
+  socket.on("optionQuestion4", async (msg) => {
+    io.emit("optionQuestionServer4", msg);
+  });
+
+  socket.on("finishTurn4", async (msg) => {
+    io.emit("finishTurnServer4", msg);
+  });
+
+  socket.on("startTurn4", async (msg) => {
+    io.emit("startTurnServer4", msg);
+  });
+
+  socket.on("correctFinish4", async (msg) => {
+    io.emit("correctFinisherver4", msg);
+  });
+
+  socket.on("wrongFinish4", async (msg) => {
+    io.emit("wrongFinishServer4", msg);
   });
 };
 
